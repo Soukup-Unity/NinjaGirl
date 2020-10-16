@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float jumpSpeed = 5;
     public bool facingRight = true;
     public GameObject gameController;
+    public Text scoreText;
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
@@ -38,6 +40,21 @@ public class PlayerController : MonoBehaviour
         if (onGround && Input.GetKeyDown(KeyCode.Space))
         {
             rb.AddForce(new Vector2(0, jumpSpeed), ForceMode2D.Impulse);
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.CompareTag("Pickup"))
+        {
+            collider.gameObject.SetActive(false);
+            score++;
+            scoreText.text = score.ToString();
+            GameObject[] pickups = GameObject.FindGameObjectsWithTag("Pickup");
+            if(pickups.Length == 0)
+            {
+
+            }
         }
     }
 }
